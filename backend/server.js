@@ -11,7 +11,16 @@ const applicationRoutes = require('./routes/applications');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://localhost:5175',
+    ' http://localhost:5176',
+    process.env.FRONTEND_URL,
+  ],
+}));
+
 app.use(express.json());
 
 // Routes
@@ -30,6 +39,10 @@ const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    app.listen(PORT, () =>
+      console.log(`Server running on port ${PORT}`)
+    );
   })
-  .catch((err) => console.error('MongoDB connection error:', err));
+  .catch((err) =>
+    console.error('MongoDB connection error:', err)
+  );
